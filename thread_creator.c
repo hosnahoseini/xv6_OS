@@ -16,14 +16,14 @@ int thread_creator(void (*fn) (void *), void *arg, int status){
     if(mod == 0) //if it is page aligned
         stack = fptr;
     else //if it's not
-        stack = fptr + (PAGESIZE - mod);
-    
+        stack = fptr + (PAGESIZE - mod);  //move fptr to the right place which is a multiple of pagesize(^_^)
+    //stack must pass to thread create 
     int thread_id = thread_create((void *)stack, status);
-
+    //checking thred_id
     if(thread_id < 0)   
         printf(1, "thread create failed\n");
     else if (thread_id == 0){
-        //child
+        //child is made 
         (fn)(arg); //call the function passed to thread_create
         free(stack); //free space when function is finished
         exit();
