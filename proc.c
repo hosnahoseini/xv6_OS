@@ -558,9 +558,9 @@ getProcInfo(void){
 int
 thread_create(void *stack, int status)
 {
-  int i, pid;
-  struct proc *np; //new thread
-  struct proc *curproc = myproc();
+  int pid;
+  struct proc *np; //new thread 
+  struct proc *curproc = myproc(); //parent thread 
 
   // Allocate thread.
   if((np = allocproc()) == 0){
@@ -570,9 +570,9 @@ thread_create(void *stack, int status)
   curproc->threads++;
   //grow downwards
   np->stackTop = (int)((char*)stack + PGSIZE);
-  acquire(&ptable.lock);
-  np->pgdir = curproc->pgdir;
-  np->sz = curproc->sz;
+  acquire(&ptable.lock); 
+  np->pgdir = curproc->pgdir;  //page table/(?)directory
+  np->sz = curproc->sz; //size of thread
   release(&ptable.lock);
   //bytes needed to be copied from parent's stack
   int bytesOnStack = curproc->stackTop - curproc->tf->esp;
@@ -585,14 +585,17 @@ thread_create(void *stack, int status)
   np->parent = curproc;
   // copy all trap frame register values from parent thread into child thread
   *np->tf = *curproc->tf;
-  // Clear %eax so that fork returns 0 in the child.
+  // Clear %eax so that fork returns 0 in the child because we had copied all parent data in child and fork return value for parent was child PID 
   np->tf->eax = 0;
+  
   // update esp (aka stack pointer) to grow down on the size of bytes
   np->tf->esp = np->stackTop - bytesOnStack;
+  
   // ebp is the base pointer 
   //The base pointer is conventionally used to mark the start of a function's 
   //stack frame, or the area of the stack managed by that function. Local 
   //variables are stored below the base pointer and above the stack pointer.
+  //
   np->tf->ebp = np->stackTop - (curproc->stackTop - curproc->tf->ebp);
 
   for(i = 0; i < NOFILE; i++)
