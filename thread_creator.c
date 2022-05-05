@@ -18,7 +18,7 @@ int thread_creator(void (*fn) (void *), void *arg, int status){
     else //if it's not
         stack = fptr + (PAGESIZE - mod);  //move fptr to the right place which is a multiple of pagesize(^_^)
     //stack must pass to thread create 
-    int thread_id = thread_create((void *)stack, status);
+    int thread_id = thread_create((void *)stack);
     //checking thred_id
     if(thread_id < 0)   
         printf(1, "thread create failed\n");
