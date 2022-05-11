@@ -23,3 +23,6 @@
 #define SYS_getTicks 23
 #define SYS_getProcInfo 24
 
+
+#define SYS_thread_create 93
+#define SYS_thread_wait 94
