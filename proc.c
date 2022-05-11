@@ -556,9 +556,9 @@ getProcInfo(void){
 
 //creates a new thread with needed  situation
 int
-thread_create(void *stack, int status)
+thread_create(void *stack)
 {
-  int pid;
+  int pid,i;
   struct proc *np; //new thread 
   struct proc *curproc = myproc(); //parent thread 
 

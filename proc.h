@@ -51,6 +51,7 @@ struct proc {
   char name[16];               // Process name (debugging)
   int ctime;                   // Time when the process created
   int stackTop;                //points to top of stack
+  int threads;                 //-1 for child thread,1 for child process and others for parent
 };
 
 // Process memory is laid out contiguously, low addresses first:

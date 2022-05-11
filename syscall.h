@@ -22,4 +22,4 @@
 #define SYS_close  21
 #define SYS_getTicks 23
 #define SYS_getProcInfo 24
-
+#define SYS_thread_create 25

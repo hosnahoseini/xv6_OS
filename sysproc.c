@@ -101,3 +101,9 @@ sys_getProcInfo(void)
 {
   return getProcInfo();
 }
+
+int 
+sys_thread_create(void* stack)
+{
+ return thread_create(stack);
+}
