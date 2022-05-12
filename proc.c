@@ -683,7 +683,7 @@ thread_create(void *stack)
   return pid;
 }
 int
-thread_wait(void)
+thread_join(int input_pid)
 {
   struct proc *p;
   int havekids, pid;
@@ -697,6 +697,8 @@ thread_wait(void)
       if(p->parent != curproc)
         continue;
       if(p->threads != -1) //only wait for child threads
+        continue;
+      if(p->pid != input_pid)
         continue;
       havekids = 1;
       if(p->state == ZOMBIE){
@@ -729,4 +731,9 @@ thread_wait(void)
     sleep(curproc, &ptable.lock);  //DOC: wait-sleep
   }
 }
-
+int
+thread_id(void)
+{
+  struct proc *curproc = myproc();
+  return curproc->pid;
+}

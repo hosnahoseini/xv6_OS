@@ -106,7 +106,8 @@ extern int sys_uptime(void);
 extern int sys_getTicks(void);
 extern int sys_getProcInfo(void);
 extern int sys_thread_create(void);
-extern int sys_thread_wait(void);
+extern int sys_thread_join(void);
+extern int sys_thread_id(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -133,7 +134,8 @@ static int (*syscalls[])(void) = {
 [SYS_getTicks] sys_getTicks,
 [SYS_getProcInfo] sys_getProcInfo,
 [SYS_thread_create] sys_thread_create,
-[SYS_thread_wait] sys_thread_wait,
+[SYS_thread_join] sys_thread_join,
+[SYS_thread_id] sys_thread_id
 };
 
 void

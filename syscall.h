@@ -25,4 +25,5 @@
 
 
 #define SYS_thread_create 25
-#define SYS_thread_wait 26
+#define SYS_thread_join 26
+#define SYS_thread_id 27

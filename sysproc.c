@@ -114,7 +114,13 @@ sys_thread_create(void)
 }
 
 int
-sys_thread_wait(void)
+sys_thread_join(int pid)
 {
-  return thread_wait();
+  return thread_join(pid);
+}
+
+int
+sys_thread_id(void)
+{
+  return thread_id();
 }

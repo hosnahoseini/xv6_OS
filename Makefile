@@ -185,6 +185,7 @@ UPROGS=\
 	_getProcInfoTest\
 	_threadsTest1\
 	_threadsTest2\
+	_threadsTest3\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -261,6 +262,8 @@ EXTRA=\
 	getProcInfoTest.c\
 	threadsTest1.c\
 	threadsTest2.c\
+	threadsTest3.c\
+
 
 dist:
 	rm -rf dist

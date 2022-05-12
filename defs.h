@@ -123,8 +123,8 @@ void            yield(void);
 int             getTicks(void);
 int             getProcInfo(void);
 int             thread_create(void *stack);
-int             thread_wait(void);
-
+int             thread_join(int);
+int             thread_id(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

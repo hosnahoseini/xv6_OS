@@ -11,7 +11,7 @@ int main(void){
     int thread_id = thread_creator(&childPrint, (void *)&argument);
     if(thread_id < 0)
         printf(1, "thread_creator failed\n");
-    thread_wait();
+    thread_join(thread_id);
     printf(1, "thread_id is: %d\n", thread_id);
 
     exit();
