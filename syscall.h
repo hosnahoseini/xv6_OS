@@ -24,5 +24,5 @@
 #define SYS_getProcInfo 24
 
 
-#define SYS_thread_create 93
-#define SYS_thread_wait 94
+#define SYS_thread_create 25
+#define SYS_thread_wait 26

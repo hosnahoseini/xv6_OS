@@ -106,11 +106,11 @@ sys_getProcInfo(void)
 int
 sys_thread_create(void)
 {
-  int status = 0;
+
   int stackptr = 0;
   if(argint(0, &stackptr) < 0) //to pass an integer value to a kernel level function
     return -1;
-  return thread_create((void *)stackptr, status);
+  return thread_create((void *)stackptr);
 }
 
 int

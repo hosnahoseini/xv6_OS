@@ -4,7 +4,7 @@
 
 #define PAGESIZE 4096
 
-int thread_creator(void (*fn) (void *), void *arg, int status){
+int thread_creator(void (*fn) (void *), void *arg){
     void *fptr = malloc(2 * PAGESIZE);
     void *stack;
     if(fptr == 0)
@@ -17,7 +17,7 @@ int thread_creator(void (*fn) (void *), void *arg, int status){
     else
         stack = fptr + (PAGESIZE - mod);
     
-    int thread_id = thread_create((void *)stack, status);
+    int thread_id = thread_create((void *)stack);
 
     if(thread_id < 0)
         printf(1, "thread create failed\n");

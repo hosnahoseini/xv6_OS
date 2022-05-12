@@ -25,7 +25,7 @@ int sleep(int);
 int uptime(void);
 int getTicks(void);
 int getProcInfo(void);
-int thread_create(void *stack, int status);
+int thread_create(void *stack);
 int thread_wait(void);
 
 
@@ -42,4 +42,4 @@ void* memset(void*, int, uint);
 void* malloc(uint);
 void free(void*);
 int atoi(const char*);
-int thread_creator(void (*fn) (void *), void *arg, int status);
+int thread_creator(void (*fn) (void *), void *arg);
