@@ -633,7 +633,7 @@ getProcInfo(void){
 }
 
 int
-thread_create(void *stack, int status)
+thread_create(void *stack)
 {
   int i, pid;
   struct proc *np; //new process
@@ -647,9 +647,9 @@ thread_create(void *stack, int status)
   curproc->threads++;
   //grow downwards
   np->stackTop = (int)((char*)stack + PGSIZE);
-  acquire(&ptable.lock);
-  np->pgdir = curproc->pgdir;
-  np->sz = curproc->sz;
+  acquire(&ptable.lock); 
+  np->pgdir = curproc->pgdir;  //page table/(?)directory
+  np->sz = curproc->sz; //size of thread
   release(&ptable.lock);
 
   int bytesOnStack = curproc->stackTop - curproc->tf->esp;
@@ -658,7 +658,7 @@ thread_create(void *stack, int status)
   np->parent = curproc;
   // copy all trap frame register values from p into newp
   *np->tf = *curproc->tf;
-  // Clear %eax so that fork returns 0 in the child.
+  // Clear %eax so that fork returns 0 in the child because we had copied all parent data in child and fork return value for parent was child PID 
   np->tf->eax = 0;
   // esp is stack pointer (update it to grow down on the size of bytes)
   np->tf->esp = np->stackTop - bytesOnStack;
