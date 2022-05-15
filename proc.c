@@ -6,7 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
-
+#define THREAD_LEADER(curproc) ((curproc)->pid == -1 ? (curproc) : (curproc)->parent)
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -686,24 +686,18 @@ int
 thread_join(int input_pid)
 {
   struct proc *p;
-  int havekids, pid;
-  struct proc *curproc = myproc();
   
+  // search for thread
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->pid == input_pid && p->threads != -1){
+      break;
+    }
+  }
+// printf(1, "thread_id = %d thread_threads = %d, thread_parent_id = %d \n", p->pid, p->thread, p->parent->pid );
   acquire(&ptable.lock);
   for(;;){
-    // Scan through table looking for exited children.
-    havekids = 0;
-    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->parent != curproc)
-        continue;
-      if(p->threads != -1) //only wait for child threads
-        continue;
-      if(p->pid != input_pid)
-        continue;
-      havekids = 1;
       if(p->state == ZOMBIE){
         // Found one.
-        pid = p->pid;
         kfree(p->kstack);
         p->kstack = 0;
         if(check_pgdir_share(p)) //check if there are still some threads left with this pagedir
@@ -717,20 +711,20 @@ thread_join(int input_pid)
         p->pgdir = 0;
         p->threads = -1;
         release(&ptable.lock);
-        return pid;
+        return 1;
       }
-    }
 
     // No point waiting if we don't have any children.
-    if(!havekids || curproc->killed){
+    if(p->killed){
       release(&ptable.lock);
       return -1;
     }
 
     // Wait for children to exit.  (See wakeup1 call in proc_exit.)
-    sleep(curproc, &ptable.lock);  //DOC: wait-sleep
+    sleep(p->parent, &ptable.lock);  //DOC: wait-sleep
   }
 }
+
 int
 thread_id(void)
 {

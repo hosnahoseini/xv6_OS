@@ -5,26 +5,27 @@ int base, limit;
 
 void function(void *args){
     base ++;
+    printf(1, "Base = %d, Limit = %d\n", base, limit);
+
     if(base >= limit){
         exit();
     }else{
-    int argument = 0x0F01;
+        int argument = 0x0F01;
         int thread_id = thread_creator(&function, (void *)&argument);
         int result = thread_join(thread_id);
-        printf(1, "Base = %d, Limit = %d\n", base, limit);
-
+        
         if(result == -1)
             printf(1, "[ID] %d => [Failed] -1\n", thread_id);
         else
             printf(1, "[ID] %d => [Success] 0\n", thread_id);
     }
-
 }
 
-int main(void){
+int main(void){    
     int argument = 0x0F01;
+    limit = 7;
     thread_creator(&function, (void *)&argument);
-    printf(1, "Done! \nBase = %d, Limit = %d", base, limit);
+    printf(1, "Done! \nBase = %d, Limit = %d\n", base, limit);
 
     exit();
 }
