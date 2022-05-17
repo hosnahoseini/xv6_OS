@@ -689,34 +689,26 @@ thread_join(int input_pid)
   acquire(&threadLock); 
   int flag = 0;
   struct proc *p;
-  cprintf("==> input_pid = %d \n", input_pid);
   // search for thread
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if((p->pid) == input_pid){
-      cprintf("found some p\n");
       flag = 1;
       break;
     }
   }
   release(&threadLock);
 
-  cprintf("%p\n", p);
-  cprintf("pid = %d, parent_id = %d, threads = %d\n", p->pid, p->parent->pid, p->threads);
   if(flag == 0)
     return -2;
-  cprintf("p wasn't null\n");
 
   acquire(&ptable.lock);
   for(;;){
       if(p->state == ZOMBIE){
-        cprintf("p is in ZOMBI state (pid = %d, satate = %s\n", p->pid, p->state);
-
         // Found one.
         kfree(p->kstack);
         p->kstack = 0;
         if(check_pgdir_share(p)){ //check if there are still some threads left with this pagedir
           freevm(p->pgdir);
-          cprintf("free page dir\n");
         }
         p->pid = 0;
         p->parent = 0;
@@ -727,7 +719,6 @@ thread_join(int input_pid)
         p->pgdir = 0;
         p->threads = -1;
         release(&ptable.lock);
-        cprintf("reset p\n");
         return 0;
       }
 
@@ -736,7 +727,6 @@ thread_join(int input_pid)
       release(&ptable.lock);
       return -1;
     }
-    cprintf("parent is waiting !\n");
     // Wait for children to exit.  (See wakeup1 call in proc_exit.)
     sleep(p->parent, &ptable.lock);  //DOC: wait-sleep
   }

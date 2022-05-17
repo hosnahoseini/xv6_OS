@@ -114,9 +114,10 @@ sys_thread_create(void)
 }
 
 int
-sys_thread_join(int pid)
+sys_thread_join(int input_pid)
 {
-  return thread_join(pid);
+  argint(0,&input_pid);
+  return thread_join(input_pid);
 }
 
 int
