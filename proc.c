@@ -6,7 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
-#define THREAD_LEADER(curproc) ((curproc)->pid == -1 ? (curproc) : (curproc)->parent)
+#include <stddef.h>
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -648,7 +648,7 @@ thread_create(void *stack)
   //grow downwards
   np->stackTop = (int)((char*)stack + PGSIZE);
   acquire(&ptable.lock); 
-  np->pgdir = curproc->pgdir;  //page table/(?)directory
+  np->pgdir = curproc->pgdir;  //page directory
   np->sz = curproc->sz; //size of thread
   release(&ptable.lock);
 
@@ -682,26 +682,42 @@ thread_create(void *stack)
 
   return pid;
 }
+
 int
 thread_join(int input_pid)
 {
+  acquire(&threadLock); 
+  int flag = 0;
   struct proc *p;
-  
+  cprintf("==> input_pid = %d \n", input_pid);
   // search for thread
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if(p->pid == input_pid && p->threads != -1){
+    if((p->pid) == input_pid){
+      cprintf("found some p\n");
+      flag = 1;
       break;
     }
   }
-// printf(1, "thread_id = %d thread_threads = %d, thread_parent_id = %d \n", p->pid, p->thread, p->parent->pid );
+  release(&threadLock);
+
+  cprintf("%p\n", p);
+  cprintf("pid = %d, parent_id = %d, threads = %d\n", p->pid, p->parent->pid, p->threads);
+  if(flag == 0)
+    return -2;
+  cprintf("p wasn't null\n");
+
   acquire(&ptable.lock);
   for(;;){
       if(p->state == ZOMBIE){
+        cprintf("p is in ZOMBI state (pid = %d, satate = %s\n", p->pid, p->state);
+
         // Found one.
         kfree(p->kstack);
         p->kstack = 0;
-        if(check_pgdir_share(p)) //check if there are still some threads left with this pagedir
+        if(check_pgdir_share(p)){ //check if there are still some threads left with this pagedir
           freevm(p->pgdir);
+          cprintf("free page dir\n");
+        }
         p->pid = 0;
         p->parent = 0;
         p->name[0] = 0;
@@ -711,7 +727,8 @@ thread_join(int input_pid)
         p->pgdir = 0;
         p->threads = -1;
         release(&ptable.lock);
-        return 1;
+        cprintf("reset p\n");
+        return 0;
       }
 
     // No point waiting if we don't have any children.
@@ -719,7 +736,7 @@ thread_join(int input_pid)
       release(&ptable.lock);
       return -1;
     }
-
+    cprintf("parent is waiting !\n");
     // Wait for children to exit.  (See wakeup1 call in proc_exit.)
     sleep(p->parent, &ptable.lock);  //DOC: wait-sleep
   }
