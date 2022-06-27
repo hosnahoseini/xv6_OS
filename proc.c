@@ -645,6 +645,7 @@ thread_create(void *stack)
   }
   //incerase thread numbers for parent (default for child is -1)
   curproc->threads++;
+
   //grow downwards
   np->stackTop = (int)((char*)stack + PGSIZE);
   acquire(&ptable.lock); 
@@ -656,6 +657,7 @@ thread_create(void *stack)
   np->tf->esp = np->stackTop - bytesOnStack;
   memmove((void*)np->tf->esp, (void*)curproc->tf->esp, bytesOnStack);
   np->parent = curproc;
+
   // copy all trap frame register values from p into newp
   *np->tf = *curproc->tf;
   // Clear %eax so that fork returns 0 in the child because we had copied all parent data in child and fork return value for parent was child PID 
@@ -699,7 +701,7 @@ thread_join(int input_pid)
   release(&threadLock);
 
   if(flag == 0)
-    return -2;
+    return -1;
 
   acquire(&ptable.lock);
   for(;;){
@@ -738,3 +740,4 @@ thread_id(void)
   struct proc *curproc = myproc();
   return curproc->pid;
 }
+

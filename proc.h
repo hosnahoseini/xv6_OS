@@ -51,7 +51,15 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
-  int ctime;                  // Time when the process created    
+  int ctime;                  // Time when the process created (creation time)
+  
+  // #### add var for algo 2 and 3 and info of schedualing
+  int priority;
+  int ttime;                   //termination time
+  int rutime;                  //running time
+  int retime;                  //ready time
+  int stime;                   //sleeping time
+  int qua; //additional quantum
 };
 
 // Process memory is laid out contiguously, low addresses first:
@@ -59,3 +67,6 @@ struct proc {
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
+
+// ####
+void updateStatus();

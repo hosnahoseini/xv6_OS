@@ -25,7 +25,7 @@ int main(void){
     int argument = 0x0F01;
     limit = 7;
     int id =thread_creator(&function, (void *)&argument);
-    int result = thread_join(id);
+    thread_join(id);
     printf(1, "Done! \nBase = %d, Limit = %d\n", base, limit);
 
     exit();
