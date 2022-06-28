@@ -126,6 +126,10 @@ int             thread_create(void *stack);
 int             thread_join(int);
 int             thread_id(void);
 
+uint            getctime(int);
+int             getttime(int);
+int             getrutime(int);
+int             getProcStatus(int, int);
 // swtch.S
 void            swtch(struct context**, struct context*);
 

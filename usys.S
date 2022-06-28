@@ -34,3 +34,8 @@ SYSCALL(getProcInfo)
 SYSCALL(thread_create)
 SYSCALL(thread_join)
 SYSCALL(thread_id)
+
+SYSCALL(getctime)
+SYSCALL(getttime)
+SYSCALL(getrutime)
+SYSCALL(getProcStatus)

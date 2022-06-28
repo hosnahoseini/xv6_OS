@@ -51,7 +51,7 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
-  int ctime;                  // Time when the process created (creation time)
+  uint ctime;                  // Time when the process created (creation time)
   
   // #### add var for algo 2 and 3 and info of schedualing
   int priority;

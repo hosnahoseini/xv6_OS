@@ -29,6 +29,11 @@ int thread_create(void *stack);
 int thread_join(int);
 int thread_id(void);
 
+uint getctime(int);
+int getttime(int);
+int getrutime(int);
+int getProcStatus(int, int);
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);

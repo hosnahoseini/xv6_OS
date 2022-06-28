@@ -125,3 +125,35 @@ sys_thread_id(void)
 {
   return thread_id();
 }
+
+int
+sys_getctime(void)
+{
+  int pid;
+  argint(0, &pid);
+  return (int)getctime(pid);
+}
+
+int
+sys_getttime(void)
+{
+  int pid;
+  argint(0, &pid);
+  return getttime(pid);
+}
+
+int
+sys_getrutime(void)
+{
+  int pid;
+  argint(0, &pid);
+  return getrutime(pid);
+}
+
+int
+sys_getProcStatus(void){
+    int type, pid;
+    if(argint(0, &type) < 0 || argint(1, &pid) < 0)
+        return -1;
+    return getProcStatus(type, pid);
+}
