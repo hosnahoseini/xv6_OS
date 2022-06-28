@@ -94,7 +94,11 @@ found:
   p->stackTop = -1;
   p->threads = -1;
   p->ctime = ticks;
-
+  p->retime = 0;
+  p->rutime = 0;
+  p->stime = 0;
+  p->priority = 3; //default value of priority
+  p->qua = 0; 
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -136,6 +140,9 @@ userinit(void)
     panic("userinit: out of memory?");
   inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);
   p->sz = PGSIZE;
+  // ####
+  p->ctime = ticks;
+
   memset(p->tf, 0, sizeof(*p->tf));
   p->tf->cs = (SEG_UCODE << 3) | DPL_USER;
   p->tf->ds = (SEG_UDATA << 3) | DPL_USER;
@@ -323,6 +330,9 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
+  // ####
+  curproc->ttime = ticks;
+
   sched();
   panic("zombie exit");
 }

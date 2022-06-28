@@ -29,8 +29,8 @@ int main() {
         sumWaiting += waitingTime;
         sumBurst += cpuBurst;
         printf(1, "pid: %d, ", getpid());
-        printf(1, "creation time = %d", getProcStatus(1, pid));
-        printf(1, "termination time = %d", getProcStatus(2, pid));
+        printf(1, "creation time = %d, ", getProcStatus(1, pid));
+        printf(1, "termination time = %d, ", getProcStatus(2, pid));
         printf(1, "turnaround time = %d, ", turnAround);
         printf(1, "waiting time = %d, ", waitingTime);
         printf(1, "sleeping time = %d, ", sleeping);

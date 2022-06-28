@@ -139,7 +139,7 @@ static int (*syscalls[])(void) = {
 [SYS_getProcInfo] sys_getProcInfo,
 [SYS_thread_create] sys_thread_create,
 [SYS_thread_join] sys_thread_join,
-[SYS_thread_id] sys_thread_id
+[SYS_thread_id] sys_thread_id,
 
 [SYS_getctime]    sys_getctime,
 [SYS_getttime]    sys_getttime,
