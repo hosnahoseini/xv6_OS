@@ -35,6 +35,7 @@ int getrutime(int);
 int getProcStatus(int, int);
 int setPriority(int priority, int pid);
 int getPriority(int pid);
+int changePolicy(int schedNum);
 
 
 // ulib.c

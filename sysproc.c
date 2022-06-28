@@ -173,3 +173,12 @@ sys_setPriority(void)
   argint(1, &pid);
   return setPriority(priority, pid);
 }
+
+int
+sys_changePolicy(void)
+{
+  int schedNum;
+  argint(0, &schedNum);
+  return changePolicy(schedNum);
+}
+

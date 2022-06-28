@@ -15,6 +15,8 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
+int schedIdentity = 0;
+
 extern void forkret(void);
 extern void trapret(void);
 
@@ -422,9 +424,23 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->state != RUNNABLE)
-        continue;
 
+      if(schedIdentity == 0){
+        if(p->state != RUNNABLE)
+          continue;
+      }
+      if(schedIdentity == 1){
+        if(p->state != RUNNABLE)
+          continue;
+        struct proc *p1;
+        struct proc *highestPriorityProc = p;
+        for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+          if((p1->state == RUNNABLE) && (p1->priority < highestPriorityProc->priority)){
+            highestPriorityProc = p1;
+          }
+        }
+        p = highestPriorityProc; 
+      }
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
@@ -874,4 +890,10 @@ getProcStatus(int type, int pid) {
             return proc->stime;
     }
     return 0;
+}
+
+int
+changePolicy(int schedNum){
+  schedIdentity = schedNum;
+  return 0;
 }

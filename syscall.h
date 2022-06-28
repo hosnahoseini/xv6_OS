@@ -28,6 +28,7 @@
 #define SYS_thread_join 26
 #define SYS_thread_id 27
 
+#define SYS_changePolicy 100
 #define SYS_getctime 101
 #define SYS_getttime 102
 #define SYS_getrutime 103
