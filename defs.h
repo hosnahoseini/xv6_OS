@@ -130,6 +130,9 @@ uint            getctime(int);
 int             getttime(int);
 int             getrutime(int);
 int             getProcStatus(int, int);
+int             setPriority(int priority, int pid);
+int             getPriority(int pid);
+
 // swtch.S
 void            swtch(struct context**, struct context*);
 

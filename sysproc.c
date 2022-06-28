@@ -157,3 +157,19 @@ sys_getProcStatus(void){
         return -1;
     return getProcStatus(type, pid);
 }
+
+int
+sys_getPriority(void){
+  int pid;
+  argint(0, &pid);
+  return getPriority(pid);
+}
+
+int 
+sys_setPriority(void)
+{
+  int priority, pid;
+  argint(0, &priority);
+  argint(1, &pid);
+  return setPriority(priority, pid);
+}

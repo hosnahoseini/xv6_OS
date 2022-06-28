@@ -773,6 +773,35 @@ void updateStatus() {
 }
 
 
+int
+setPriority(int priority, int pid){
+  struct proc *p;
+  if(priority<1 || priority>6){
+    priority = 5;
+  }
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->pid == pid){
+      p->priority = priority;
+    }
+  }
+  release(&ptable.lock);
+  return 0;
+}
+
+int
+getPriority(int pid){
+  struct proc *p;
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->pid == pid){
+      return p->priority;
+    }
+  }
+  release(&ptable.lock);
+  return 0;
+}
+
 uint
 getctime(int pid){
   struct proc *p;
