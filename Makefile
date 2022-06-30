@@ -188,6 +188,7 @@ UPROGS=\
 	_threadsTest3\
 	_roundRobinTest\
 	_prioritySchedTest\
+	_multiLevelTest\
 	# _lotteryTest\
 
 fs.img: mkfs README $(UPROGS)
@@ -269,6 +270,7 @@ EXTRA=\
 	roundRobinTest.c\
 	prioritySchedTest.c\
 	lotteryTest.c\
+	multiLevelTest\
 
 
 dist:
