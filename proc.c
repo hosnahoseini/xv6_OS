@@ -447,16 +447,29 @@ scheduler(void)
           continue;
       }
       if(schedIdentity == 1){
-        if(p->state != RUNNABLE)
-          continue;
-        struct proc *p1;
-        struct proc *highestPriorityProc = p;
-        for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
-          if((p1->state == RUNNABLE) && (p1->priority < highestPriorityProc->priority)){
-            highestPriorityProc = p1;
-          }
-        }
-        p = highestPriorityProc; 
+            struct proc *highP = 0;
+            struct proc *p1 = 0;
+            if(p->state != RUNNABLE)
+                continue;
+            // Choose the process with highest priority (among RUNNABLEs)
+            highP = p;
+            for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+              if((p1->state == RUNNABLE) && (highP->priority > p1->priority))
+                  highP = p1;
+              }
+
+            if(highP != 0)
+                p = highP;
+        // if(p->state != RUNNABLE)
+        //   continue;
+        // struct proc *p1;
+        // struct proc *highestPriorityProc = p;
+        // for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+        //   if((p1->state == RUNNABLE) && (p1->priority < highestPriorityProc->priority)){
+        //     highestPriorityProc = p1;
+        //   }
+        // }
+        // p = highestPriorityProc; 
       }
       if(schedIdentity == 2){
 
