@@ -133,6 +133,7 @@ int             getProcStatus(int, int);
 int             setPriority(int priority, int pid);
 int             getPriority(int pid);
 int             changePolicy(int schedNum);
+int             changeTickets(int tickets, int pid);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

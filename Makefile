@@ -188,6 +188,7 @@ UPROGS=\
 	_threadsTest3\
 	_roundRobinTest\
 	_prioritySchedTest\
+	# _lotteryTest\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -267,6 +268,7 @@ EXTRA=\
 	threadsTest3.c\
 	roundRobinTest.c\
 	prioritySchedTest.c\
+	lotteryTest.c\
 
 
 dist:

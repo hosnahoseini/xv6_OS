@@ -115,6 +115,7 @@ extern int sys_getProcStatus(void);
 extern int sys_setPriority(void);
 extern int sys_getPriority(void);
 extern int sys_changePolicy(void);
+extern int sys_changeTickets(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -151,6 +152,7 @@ static int (*syscalls[])(void) = {
 [SYS_setPriority]     sys_setPriority,
 [SYS_getPriority] sys_getPriority,
 [SYS_changePolicy]    sys_changePolicy,
+[SYS_changeTickets]   sys_changeTickets,
 
 };
 

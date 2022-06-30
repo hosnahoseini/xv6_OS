@@ -182,3 +182,11 @@ sys_changePolicy(void)
   return changePolicy(schedNum);
 }
 
+int 
+sys_changeTickets(void)
+{
+  int tickets, pid;
+  argint(0, &tickets);
+  argint(1, &pid);
+  return changeTickets(tickets, pid);
+}

@@ -35,3 +35,4 @@
 #define SYS_getProcStatus 104
 #define SYS_getPriority 105
 #define SYS_setPriority 106
+#define SYS_changeTickets 107
