@@ -971,6 +971,7 @@ getPriority(int pid){
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid){
+      // cprintf("priority for %d is %d\n", pid, p->priority);
       return p->priority;
     }
   }
