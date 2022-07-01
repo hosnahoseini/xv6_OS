@@ -14,7 +14,7 @@ int main() {
             for (int i = 0; i < 1000; i++) {
                 printf(1, "/%d/ : /%d/\n", getpid(), i);
             }
-            sleep(800);
+            sleep(2000);
             exit();
         }
         else children= children +1;
@@ -30,10 +30,6 @@ int main() {
         int waitingTime = stime;
         int sleeping = retime;
         int cpuBurst = rutime;
-        // int pid = wait();
-        // int waitingTime = getProcStatus(4, pid);
-        // int sleeping = getProcStatus(5, pid);
-        // int cpuBurst = getProcStatus(3, pid);
         int turnAround = waitingTime + sleeping+cpuBurst;
         sumTurnaround += turnAround;
         sumWaiting += waitingTime;

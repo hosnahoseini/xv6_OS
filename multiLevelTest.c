@@ -2,26 +2,26 @@
 #include "stat.h"
 #include "user.h"
 
-#define N  30
+#define N  60
 
 void callPriority(int priority[]){
-   for(int n=0;n<30;n++){
-            if(n < 5){
+   for(int n=0;n<60;n++){
+            if(n < 10){
                 priority[n]=6;
             }
-            if(n >= 5 && n < 10){
+            if(n >= 10 && n < 20){
                 priority[n]=5;
             }
-            if(n >= 10 && n < 15){
+            if(n >= 20 && n < 30){
                 priority[n]=4;
             }
-            if(n >= 15 && n < 20){
+            if(n >= 30 && n < 40){
                 priority[n]=3;
             }
-            if(n >= 20 && n < 25){
+            if(n >= 40 && n < 50){
                 priority[n]=2;
             }
-            if(n >= 25){
+            if(n >= 60){
                 priority[n]=1;
             }
    }
@@ -29,8 +29,11 @@ void callPriority(int priority[]){
 
 int main(void){
   int n, pid;
-  int size[] = {30, 5, 5, 5, 5, 5, 5};
+  int size[] = {60, 10, 10, 10, 10, 10, 10};
   int priority[N];
+  int retime;
+  int rutime;
+  int stime;
   callPriority(priority);
   changePolicy(2);
   printf(1, "Multi Level Test\n");
@@ -40,28 +43,28 @@ int main(void){
         if(pid < 0)
             break;
         if(pid == 0){
-            if(n < 5){
+            if(n < 10){
                 setPriority(1, pid);
             }
-            if(n >= 5 && n < 10){
+            if(n >= 10 && n < 20){
                 setPriority(2, pid);
             }
-            if(n >= 10 && n < 15){
+            if(n >= 20 && n < 30){
                 setPriority(3, pid);
             }
-            if(n >= 15 && n < 20){
+            if(n >= 30 && n < 40){
                 setPriority(4, pid);
             }
-            if(n >= 20 && n < 25){
+            if(n >= 40 && n < 50){
                 setPriority(5, pid);
             }
-            if(n >= 25){
+            if(n >= 50){
                 setPriority(6, pid);
             }
-            for(int i=0 ; i<10 ; i++){
+            for(int i=0 ; i<20 ; i++){
                 printf(1, "/%d/ : /%d/ \n", pid, i+1);
             }
-            sleep(300);
+            sleep(3500);
             exit();
         }
     }
@@ -70,11 +73,11 @@ int main(void){
     int totalBurst[7];
 
 
-    for (int i = 0; i <30 ; ++i) {
-        int pid = wait(); 
-        int waitingTime = getProcStatus(4, pid);
-        int sleeping = getProcStatus(5, pid);
-        int cpuBurst = getProcStatus(3, pid);
+    for (int i = 0; i <60 ; ++i) {
+        int pid = wait2(&retime, &rutime, &stime);
+        int waitingTime = stime;
+        int sleeping = retime;
+        int cpuBurst = rutime;
         int turnAround = waitingTime+sleeping+cpuBurst;
         totalTurnaround[0] += turnAround;
         totalWaiting[0] += waitingTime;
