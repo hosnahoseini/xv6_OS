@@ -478,6 +478,7 @@ notfound:
 void
 scheduler(void)
  {
+
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
@@ -521,18 +522,8 @@ scheduler(void)
 
             if(highP != 0)
                 p = highP;
-        // if(p->state != RUNNABLE)
-        //   continue;
-        // struct proc *p1;
-        // struct proc *highestPriorityProc = p;
-        // for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
-        //   if((p1->state == RUNNABLE) && (p1->priority < highestPriorityProc->priority)){
-        //     highestPriorityProc = p1;
-        //   }
-        // }
-        // p = highestPriorityProc; 
       }
-      if(schedPolicy == 2){
+      if(schedPolicy == 2){ //Multi level 
 
         struct proc *foundP = 0;
 
@@ -554,7 +545,7 @@ scheduler(void)
             }
 
       }
-      if(schedPolicy == 3){
+      if(schedPolicy == 3){ //Lottery
           if(p->state != RUNNABLE)
             continue;
           //find the process which holds the lottery winning ticket 
@@ -563,8 +554,7 @@ scheduler(void)
             continue;
           }
       }
-    // }
-    // if(p!=0){
+    if(p!=0){
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
@@ -578,6 +568,7 @@ scheduler(void)
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
+            }
     }
     release(&ptable.lock);
 
