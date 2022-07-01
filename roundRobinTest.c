@@ -5,6 +5,9 @@
 int main() {
       changePolicy(0);
       int children = 0;
+      int retime;
+      int rutime;
+      int stime;
     for (int i = 0; i <10 ; i++) {
         int pid = fork();
         if ( pid == 0) {
@@ -23,10 +26,14 @@ int main() {
 
 
     for (int i = 0; i <10 ; i++) {
-        int pid = wait();
-        int waitingTime = getProcStatus(4, pid);
-        int sleeping = getProcStatus(5, pid);
-        int cpuBurst = getProcStatus(3, pid);
+        int pid = wait2(&retime, &rutime, &stime);
+        int waitingTime = stime;
+        int sleeping = retime;
+        int cpuBurst = rutime;
+        // int pid = wait();
+        // int waitingTime = getProcStatus(4, pid);
+        // int sleeping = getProcStatus(5, pid);
+        // int cpuBurst = getProcStatus(3, pid);
         int turnAround = waitingTime + sleeping+cpuBurst;
         sumTurnaround += turnAround;
         sumWaiting += waitingTime;
