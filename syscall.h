@@ -36,3 +36,4 @@
 #define SYS_getPriority 105
 #define SYS_setPriority 106
 #define SYS_changeTickets 107
+#define SYS_wait2  108
