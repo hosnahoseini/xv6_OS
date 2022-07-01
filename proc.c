@@ -495,7 +495,6 @@ scheduler(void)
         total_no_tickets = 0;
         
         //calculate Total number of tickets for runnable processes  
-        
         total_no_tickets = lottery_Total();
 
         //pick a random ticket from total available tickets
@@ -564,8 +563,8 @@ scheduler(void)
             continue;
           }
       }
-    }
-    if(p!=0){
+    // }
+    // if(p!=0){
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.

@@ -183,13 +183,13 @@ UPROGS=\
 	_zombie\
 	_getTicksTest\
 	_getProcInfoTest\
-	_threadsTest1\
-	_threadsTest2\
-	_threadsTest3\
 	_roundRobinTest\
 	_prioritySchedTest\
-	# _multiLevelTest\
-	# _lotteryTest\
+	_multiLevelTest\
+	_lotteryTest\
+	# _threadsTest1\
+	# _threadsTest2\
+	# _threadsTest3\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
