@@ -19,9 +19,9 @@ int get_tickets(int pid){
 
 int main(void){
   int pid;
-//   int retime;
-//   int rutime;
-//   int stime;
+  int retime;
+  int rutime;
+  int stime;
   changePolicy(3);
   printf(1, "priority Test \n");
 
@@ -70,11 +70,11 @@ int main(void){
       
 
     for (int i = 0; i <30 ; ++i) {
-        int pid = wait();
-        // int pid = wait2(&retime, &rutime, &stime);
-        int waitingTime = getProcStatus(4, pid);
-        int sleeping = getProcStatus(5, pid);
-        int cpuBurst = getProcStatus(3, pid);
+        // int pid = wait();
+        int pid = wait2(&retime, &rutime, &stime);
+        int waitingTime = retime;
+        int sleeping = stime;
+        int cpuBurst = rutime;
         int turnAround = waitingTime + sleeping + cpuBurst;
         totalTurnaround += turnAround;
         totalWaiting += waitingTime;
