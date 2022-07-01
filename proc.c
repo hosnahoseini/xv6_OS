@@ -440,7 +440,7 @@ int wait2(int *retime, int *rutime, int *stime) {
       }
     }
 
-
+  }
 struct proc* findReadyProcess(int *index1, int *index2, int *index3, int *index4, int *index5, int *index6,uint *priority) {
   int i;
   struct proc* proc2;

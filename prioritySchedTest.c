@@ -47,10 +47,10 @@ int main(void){
 
     for (int i = 0; i <30 ; ++i) {
         int pid = wait();
-        int turnAround = getProcStatus(2, pid) - getProcStatus(1, pid);
         int waitingTime = getProcStatus(4, pid);
         int sleeping = getProcStatus(5, pid);
         int cpuBurst = getProcStatus(3, pid);
+        int turnAround = waitingTime + sleeping + cpuBurst;
         totalTurnaround[0] += turnAround;
         totalWaiting[0] += waitingTime;
         totalBurst[0] += cpuBurst;
