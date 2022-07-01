@@ -15,7 +15,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
-int schedIdentity = 0;
+int schedPolicy = 0;
 
 extern void forkret(void);
 extern void trapret(void);
@@ -405,6 +405,68 @@ wait(void)
   }
 }
 
+
+struct proc* findReadyProcess(int *index1, int *index2, int *index3, int *index4, int *index5, int *index6,uint *priority) {
+  int i;
+  struct proc* proc2;
+notfound:
+  for (i = 0; i < NPROC; i++) {
+    switch(*priority) {
+      case 1:
+        proc2 = &ptable.proc[(*index1 + i) % NPROC];
+        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
+          *index1 = (*index1 + 1 + i) % NPROC;
+          proc2->qua=6;
+          return proc2; // found a runnable process with appropriate priority
+        }
+      case 2:
+        proc2 = &ptable.proc[(*index2 + i) % NPROC];
+        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
+          *index2 = (*index2 + 1 + i) % NPROC;
+          proc2->qua=5;
+          return proc2; // found a runnable process with appropriate priority
+        }
+      case 3:
+        proc2 = &ptable.proc[(*index3 + i) % NPROC];
+        if (proc2->state == RUNNABLE && proc2->priority == *priority){
+          *index3 = (*index3 + 1 + i) % NPROC;
+          proc2->qua=4;
+          return proc2; // found a runnable process with appropriate priority
+        }
+      case 4:
+        proc2 = &ptable.proc[(*index1 + i) % NPROC];
+        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
+          *index4 = (*index4 + 1 + i) % NPROC;
+          proc2->qua=3;
+          return proc2; // found a runnable process with appropriate priority
+        }
+      case 5:
+        proc2 = &ptable.proc[(*index1 + i) % NPROC];
+        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
+          *index5 = (*index5 + 1 + i) % NPROC;
+          proc2->qua=2;
+          return proc2; // found a runnable process with appropriate priority
+       }
+      case 6:
+        proc2 = &ptable.proc[(*index1 + i) % NPROC];
+        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
+          *index6 = (*index6 + 1 + i) % NPROC;
+          proc2->qua=1;
+          return proc2; // found a runnable process with appropriate priority
+       }
+    }
+  }
+  if (*priority == 6) {//did not find any process on any of the prorities
+    *priority = 6;
+    return 0;
+  }
+  else {
+    *priority += 1; //will try to find a process at a lower priority (ighter value of priority)
+    goto notfound;
+  }
+  return 0;
+}
+
 //PAGEBREAK: 42
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
@@ -442,11 +504,11 @@ scheduler(void)
     // Loop over process table looking for process to run.
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
 
-      if(schedIdentity == 0){
+      if(schedPolicy == 0){
         if(p->state != RUNNABLE)
           continue;
       }
-      if(schedIdentity == 1){
+      if(schedPolicy == 1){
             struct proc *highP = 0;
             struct proc *p1 = 0;
             if(p->state != RUNNABLE)
@@ -471,7 +533,7 @@ scheduler(void)
         // }
         // p = highestPriorityProc; 
       }
-      if(schedIdentity == 2){
+      if(schedPolicy == 2){
 
         struct proc *foundP = 0;
 
@@ -484,7 +546,7 @@ scheduler(void)
             int index5 = 0;
             int index6 = 0;
 
-            foundP = findReadyProcess(&index1, &index2, &index3,&index4, &index5 &index6, &priority);
+            foundP = findReadyProcess(&index1, &index2, &index3,&index4, &index5, &index6, &priority);
             if (foundP != 0)
               p = foundP;
             else{
@@ -493,7 +555,7 @@ scheduler(void)
             }
 
       }
-      if(schedIdentity == 3){
+      if(schedPolicy == 3){
           if(p->state != RUNNABLE)
             continue;
           //find the process which holds the lottery winning ticket 
@@ -957,7 +1019,7 @@ getProcStatus(int type, int pid) {
 
 int
 changePolicy(int schedNum){
-  schedIdentity = schedNum;
+  schedPolicy = schedNum;
   return 0;
 }
 
@@ -1027,65 +1089,4 @@ changeTickets(int tickets, int pid)
   release(&ptable.lock);
 
   return pid;
-}
-
-struct proc* findReadyProcess(int *index1, int *index2, int *index3, int *index4, uint *index5, int *index6,uint *priority) {
-  int i;
-  struct proc* proc2;
-notfound:
-  for (i = 0; i < NPROC; i++) {
-    switch(*priority) {
-      case 1:
-        proc2 = &ptable.proc[(*index1 + i) % NPROC];
-        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
-          *index1 = (*index1 + 1 + i) % NPROC;
-          proc2->qua=6;
-          return proc2; // found a runnable process with appropriate priority
-        }
-      case 2:
-        proc2 = &ptable.proc[(*index2 + i) % NPROC];
-        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
-          *index2 = (*index2 + 1 + i) % NPROC;
-          proc2->qua=5;
-          return proc2; // found a runnable process with appropriate priority
-        }
-      case 3:
-        proc2 = &ptable.proc[(*index3 + i) % NPROC];
-        if (proc2->state == RUNNABLE && proc2->priority == *priority){
-          *index3 = (*index3 + 1 + i) % NPROC;
-          proc2->qua=4;
-          return proc2; // found a runnable process with appropriate priority
-        }
-      case 4:
-        proc2 = &ptable.proc[(*index1 + i) % NPROC];
-        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
-          *index4 = (*index4 + 1 + i) % NPROC;
-          proc2->qua=3;
-          return proc2; // found a runnable process with appropriate priority
-        }
-      case 5:
-        proc2 = &ptable.proc[(*index1 + i) % NPROC];
-        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
-          *index5 = (*index5 + 1 + i) % NPROC;
-          proc2->qua=2;
-          return proc2; // found a runnable process with appropriate priority
-       }
-      case 6:
-        proc2 = &ptable.proc[(*index1 + i) % NPROC];
-        if (proc2->state == RUNNABLE && proc2->priority == *priority) {
-          *index6 = (*index6 + 1 + i) % NPROC;
-          proc2->qua=1;
-          return proc2; // found a runnable process with appropriate priority
-       }
-    }
-  }
-  if (*priority == 6) {//did not find any process on any of the prorities
-    *priority = 6;
-    return 0;
-  }
-  else {
-    *priority += 1; //will try to find a process at a lower priority (ighter value of priority)
-    goto notfound;
-  }
-  return 0;
 }
