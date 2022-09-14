@@ -1,4 +1,7 @@
-# xv6-Fall-2021
+# XV6 Project 
+
+## This repository contains operating systems course project 
+
 ## Introduction
 ### What is xv6?
 Xv6 is a teaching operating system developed in the summer of 2006 for MIT's operating systems course. 
@@ -23,3 +26,6 @@ Instructor: [Dr.Seyyed Ahmad Javadi](https://github.com/sajavadi) <br />
 Implemented by: 
  - [Hosna Oyarhosseini](https://github.com/hosnahoseini) <br />
  - [Samin Mahdipour](https://github.com/precioux) <br />
+
+- Spring 2022
+- Amirkabir University of Technology
