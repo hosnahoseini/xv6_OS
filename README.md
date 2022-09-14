@@ -18,12 +18,12 @@ But the main reason we chose xv6 is that we want students to engage with kernel 
 - The second phase was about working with threads and realizing it's difference verses processes.
 - The third phase was much more complicated which was based on CPU scheduling, we implemented RR (Round Robin) algorithm ,preemptive priority scheduling algorithm ,preemptive multilevel queue scheduling algorithm and lottery algorithm in xv6 operating system.
 
-#### Staff
-Instructor: [Dr.Seyyed Ahmad Javadi](https://github.com/sajavadi) <br />
 
-Implemented by: 
+#### Instructor: 
+[Dr.Seyyed Ahmad Javadi](https://github.com/sajavadi) <br />
+
+#### Implemented by: 
  - [Hosna Oyarhosseini](https://github.com/hosnahoseini) <br />
  - [Samin Mahdipour](https://github.com/precioux) <br />
 
-#### Spring 2022
-#### Amirkabir University of Technology
+#### Spring 2022 - Amirkabir University of Technology
